@@ -1,0 +1,24 @@
+{
+  "name": "base_ts",
+  "version": "1.0.0",
+  "scripts": {
+    "test:ui": "vitest",
+    "start": "nodemon src/$npm_config_folder/index.ts",
+    "test": "vitest run src/$npm_config_folder/",
+    "test:all": "ts-node ./src/run-all-tests.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@types/node": "^22.15.3",
+    "nodemon": "^3.1.10",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3",
+    "vite-tsconfig-paths": "^5.1.4",
+    "vitest": "^3.1.2",
+    "prettier": "^3.5.3"
+  },
+  "dependencies": {}
+}
