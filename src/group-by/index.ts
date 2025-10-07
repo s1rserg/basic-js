@@ -1,4 +1,9 @@
-import { GroupByFn } from 'group-by/types';
+import {
+  GroupableRecord,
+  GroupByFn,
+  GroupByKey,
+  GroupedResult,
+} from 'group-by/types';
 
 /**
  * @task Group By Property
@@ -26,6 +31,19 @@ import { GroupByFn } from 'group-by/types';
  *   ]
  * }
  */
-export const groupBy: GroupByFn = (array, key) => {
-  throw new Error('Not Implemented');
+export const groupBy: GroupByFn = <T extends GroupableRecord>(
+  array: T[],
+  key: GroupByKey<T>,
+) => {
+  return array.reduce<GroupedResult<T>>((acc, curr) => {
+    const keyStr = String(curr[key]);
+
+    if (keyStr in acc) {
+      acc[keyStr].push(curr);
+      return acc;
+    }
+
+    acc[keyStr] = [curr];
+    return acc;
+  }, {});
 };
