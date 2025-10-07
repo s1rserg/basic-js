@@ -1,4 +1,4 @@
-import { BuildTreeFn } from './types';
+import { BuildTreeFn, FlatNode, TreeNode } from './types';
 
 /**
  * @task Build Tree from Flat Array
@@ -39,5 +39,23 @@ import { BuildTreeFn } from './types';
  * ]
  */
 export const buildTree: BuildTreeFn = (items) => {
-  throw new Error('Not Implemented');
+  function buildBranch(parentId: FlatNode['parentId']): TreeNode[] {
+    return items
+      .filter((item) => item.parentId === parentId)
+      .map((item) => ({ ...item, children: buildBranch(item.id) }));
+  }
+  return buildBranch(null);
+};
+
+export const buildTreeMap: BuildTreeFn = (items) => {
+  const map: { [key: number]: TreeNode } = {};
+  for (const item of items) {
+    map[item.id] = { ...item, children: [] };
+  }
+  for (const item of items) {
+    if (item.parentId !== null) {
+      map[item.parentId].children.push(map[item.id]);
+    }
+  }
+  return Object.values(map).filter((item) => item.parentId === null);
 };
