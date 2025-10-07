@@ -19,5 +19,21 @@ import { ShallowEqualFn } from './types';
  * ({ a: { x: 1 } }, { a: obj }) => true // if obj is same reference as value of a
  */
 export const shallowEqual: ShallowEqualFn = (a, b) => {
-  throw new Error('Not Implemented');
+  if (a === b) {
+    return true;
+  }
+
+  const aKeys = Object.keys(a);
+  const bKeys = Object.keys(b);
+
+  if (aKeys.length !== bKeys.length) {
+    return false;
+  }
+
+  return aKeys.every((key) => key in b && a[key] === b[key]);
 };
+
+const a = { x: undefined, y: 1 };
+const b = { y: 1, z: 2 };
+
+console.log(shallowEqual(a, b)); // without "key in b && " all tests return true and this returns true
