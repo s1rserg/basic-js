@@ -20,5 +20,30 @@ export const mergeObjectArrays = <T extends Mergeable>(
   arr1: T[],
   arr2: T[],
 ): T[] => {
-  throw new Error('Not Implemented');
+  const result: Record<number, T> = {};
+
+  for (const element of [...arr1, ...arr2]) {
+    result[element.id] = { ...result[element.id], ...element };
+  }
+
+  return Object.values(result);
+};
+
+export const mergeObjectArraysReduce = <T extends Mergeable>(
+  arr1: T[],
+  arr2: T[],
+): T[] => {
+  return arr2.reduce<T[]>(
+    (acc, curr) => {
+      const index = acc.findIndex((item) => item.id === curr.id);
+      if (index !== -1) {
+        acc[index] = { ...acc[index], ...curr };
+      } else {
+        acc.push(curr);
+      }
+
+      return acc;
+    },
+    [...arr1],
+  );
 };
