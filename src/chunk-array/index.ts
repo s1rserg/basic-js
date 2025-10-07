@@ -25,6 +25,15 @@ import { ChunkArrayFn } from './types';
  * Output:
  * []
  */
-export const chunkArray: ChunkArrayFn = (arr, size) => {
-  throw new Error('Not Implemented');
+export const chunkArray: ChunkArrayFn = <T>(arr: T[], size: number) => {
+  if (size <= 0) {
+    return [];
+  }
+
+  const result: T[][] = [];
+  for (let i = 0; i < arr.length; i += size) {
+    result.push(arr.slice(i, i + size));
+  }
+
+  return result;
 };
