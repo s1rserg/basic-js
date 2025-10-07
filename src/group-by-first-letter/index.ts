@@ -24,5 +24,15 @@ import { GroupByFirstLetterFn } from 'group-by-first-letter/types';
  * }
  */
 export const groupByFirstLetter: GroupByFirstLetterFn = (words) => {
-  throw new Error('Not Implemented');
+  return words.reduce<Record<string, string[]>>((acc, curr) => {
+    const keyStr = curr[0] || '';
+
+    if (keyStr in acc) {
+      acc[keyStr].push(curr);
+      return acc;
+    }
+
+    acc[keyStr] = [curr];
+    return acc;
+  }, {});
 };
