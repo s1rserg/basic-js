@@ -1,4 +1,4 @@
-import { FilterValidUsersFn } from './types';
+import { FilterValidUsersFn, ValidUser } from './types';
 
 /**
  * @task Filter Valid Users
@@ -19,5 +19,13 @@ import { FilterValidUsersFn } from './types';
  * ]
  */
 export const filterValidUsers: FilterValidUsersFn = (users) => {
-  throw new Error('Not Implemented');
+  return users.filter((user) => isValidUser(user));
 };
+
+function isValidUser(value: any): value is ValidUser {
+  return (
+    typeof value.name === 'string' &&
+    typeof value.age === 'number' &&
+    value.age > 18
+  );
+}
