@@ -17,5 +17,17 @@ import { CreateBreadcrumbsFn } from './types';
  * ]
  */
 export const createBreadcrumbs: CreateBreadcrumbsFn = (paths) => {
-  throw new Error('Not Implemented');
+  if (paths.length === 1 && paths[0] === '/') {
+    return [{ path: '/', label: 'Home' }];
+  }
+
+  return paths.map((path) => {
+    const labels = path.split('/').filter(Boolean);
+    const lowercaseLabel = labels[labels.length - 1];
+
+    return {
+      path,
+      label: lowercaseLabel[0].toUpperCase() + lowercaseLabel.slice(1),
+    };
+  });
 };
