@@ -1,4 +1,4 @@
-import { ExtractUniqueTagsFn } from 'unique-tags/types';
+import { ExtractUniqueTagsFn, UniqueTagsResult } from 'unique-tags/types';
 
 /**
  * @task Extract Unique Tags
@@ -34,5 +34,12 @@ import { ExtractUniqueTagsFn } from 'unique-tags/types';
  * ['a', 'b', 'c', 'd']
  */
 export const extractUniqueTags: ExtractUniqueTagsFn = (items) => {
-  throw new Error('Not Implemented');
+  return items.reduce<UniqueTagsResult>((acc, { tags }) => {
+    tags.forEach((tag) => {
+      if (!tag.trim()) return;
+      acc[tag] = (acc[tag] || 0) + 1;
+    });
+
+    return acc;
+  }, {});
 };
