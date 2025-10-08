@@ -19,5 +19,12 @@ import { ParseQueryStringFn } from './types';
  * Output: { key: 'value', empty: '' }
  */
 export const parseQueryString: ParseQueryStringFn = (query) => {
-  throw new Error('Not Implemented');
+  return query.split('&').reduce<Record<string, string>>((acc, curr) => {
+    const [key, value = ''] = curr.split('=');
+
+    if (!key) return acc;
+
+    acc[key] = value;
+    return acc;
+  }, {});
 };
