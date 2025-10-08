@@ -17,5 +17,23 @@ import { MostFrequentCharFn } from './types';
  * Output: ''
  */
 export const mostFrequentChar: MostFrequentCharFn = (text) => {
-  throw new Error('Not Implemented');
+  if (!text) return '';
+
+  const frequencies: Record<string, number> = {};
+
+  text
+    .split('')
+    .forEach((char) => (frequencies[char] = (frequencies[char] ?? 0) + 1));
+
+  let maxFrequency = 0;
+  let mostFrequentChar = '';
+
+  for (const [key, value] of Object.entries(frequencies)) {
+    if (value > maxFrequency) {
+      maxFrequency = value;
+      mostFrequentChar = key;
+    }
+  }
+
+  return mostFrequentChar;
 };
