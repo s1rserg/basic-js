@@ -17,5 +17,15 @@ import { RemoveDuplicatesFn } from './types';
  * [ { id: 1 }, { id: 2 } ]
  */
 export const removeDuplicates: RemoveDuplicatesFn = <T>(array: T[]): T[] => {
-  throw new Error('Not Implemented');
+  const strArray = array.map((item) => JSON.stringify(item));
+  const seenValues = new Set();
+  const result: T[] = [];
+
+  for (let i = 0; i < array.length; i++) {
+    if (seenValues.has(strArray[i])) continue;
+    result.push(array[i]);
+    seenValues.add(strArray[i]);
+  }
+
+  return result;
 };
