@@ -20,5 +20,20 @@ import { CalculateAverageRatingsFn } from 'movie-average-rating/types';
  * ]
  */
 export const calculateAverageRatings: CalculateAverageRatingsFn = (ratings) => {
-  throw new Error('Not Implemented');
+  const movies = ratings.reduce<
+    Record<number, { totalScore: number; votesCount: number }>
+  >((movies, rating) => {
+    const movieId = rating.movieId;
+    if (!movies[movieId]) {
+      movies[movieId] = { totalScore: 0, votesCount: 0 };
+    }
+    movies[movieId].votesCount += 1;
+    movies[movieId].totalScore += rating.score;
+    return movies;
+  }, {});
+
+  return Object.entries(movies).map(([key, value]) => ({
+    movieId: +key,
+    averageScore: Math.round((value.totalScore / value.votesCount) * 10) / 10,
+  }));
 };
