@@ -16,5 +16,18 @@ import { NestedObjectKeysFn } from './types';
  * Output: []
  */
 export const nestedObjectKeys: NestedObjectKeysFn = (obj) => {
-  throw new Error('Not Implemented');
+  const result: string[] = [];
+
+  for (const key in obj) {
+    result.push(key);
+    if (Object.prototype.toString.call(obj) === '[object Object]') {
+      result.push(
+        ...nestedObjectKeys(obj[key] as Record<string, unknown>).map(
+          (item) => `${key}.${item}`,
+        ),
+      );
+    }
+  }
+
+  return result;
 };
