@@ -1,3 +1,4 @@
+import { GetNestedPropertyFn } from 'get-nested-property/types';
 import { SortByNestedFieldFn } from './types';
 
 /**
@@ -15,6 +16,26 @@ import { SortByNestedFieldFn } from './types';
  *   { id: 1, user: { name: 'B' } }
  * ]
  */
+const getNestedProperty: GetNestedPropertyFn = (obj, path) => {
+  return path
+    .split('.')
+    .reduce<unknown>(
+      (acc, key) => (acc != null ? acc[key as keyof typeof acc] : undefined),
+      obj,
+    );
+};
+
 export const sortByNestedField: SortByNestedFieldFn = (arr, field) => {
-  throw new Error('Not Implemented');
+  return arr.sort((a, b) => {
+    const aField = getNestedProperty(a, field);
+    const bField = getNestedProperty(b, field);
+
+    if (aField === undefined) return -1;
+    if (bField === undefined) return 1;
+
+    if (typeof aField === 'number' && typeof bField === 'number')
+      return aField - bField;
+
+    return String(aField).localeCompare(String(bField));
+  });
 };
